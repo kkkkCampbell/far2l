@@ -21,7 +21,8 @@ jobs:
         env:
           ARCH: aarch64_cortex-a53-25.12.2
           FEEDNAME: far2l_ci
-          PACKAGES: far2l-openwrt
+          FEED_DIR: far2l-openwrt
+          PACKAGES: far2l
           VERSION: ${{ github.sha }}
           GIT_DATE: ${{ github.event.head_commit.timestamp }}
           GIT_HASH: ${{ github.sha }}

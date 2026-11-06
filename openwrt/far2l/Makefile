@@ -1,14 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=far2l
-PKG_VERSION:=main
 PKG_RELEASE:=1
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=LICENSE.txt
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/kkkkCampbell/far2l.git
-PKG_SOURCE_VERSION:=main
+PKG_SOURCE_URL:=https://github.com/ТВОЙ_ЛОГИН/far2l.git
+PKG_SOURCE_VERSION:=master
 PKG_MIRROR_HASH:=skip
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)
 PKG_BUILD_PARALLEL:=1
@@ -20,13 +19,13 @@ include $(INCLUDE_DIR)/cmake.mk
 define Package/far2l
   SECTION:=utils
   CATEGORY:=Utilities
-  TITLE:=FAR Manager v2 (Linux port)
+  TITLE:=FAR Manager v2 (Linux port, console)
   URL:=https://github.com/elfmz/far2l
   DEPENDS:=+libstdcpp +libarchive-noopenssl
 endef
 
 define Package/far2l/description
-  Linux port of FAR Manager v2.
+  Linux port of FAR Manager v2, console (TTY) backend only.
 endef
 
 define Package/far2l/install
@@ -37,14 +36,23 @@ define Package/far2l/install
 endef
 
 CMAKE_OPTIONS += \
-	-DADB=no \
-	-DARCLITE=no \
-	-DIMAGEVIEWER=no \
-	-DOPENWITH=no \
-	-DUSEUCD=no \
 	-DUSEWX=no \
+	-DUSESDL=no \
+	-DTTYX=no \
+	-DTTYXI=no \
+	-DUSEUCD=no \
 	-DCOLORER=no \
 	-DNETROCKS=no \
-	-DCMAKE_DISABLE_FIND_PACKAGE_Git=ON
+	-DADB=no \
+	-DALIGN=no \
+	-DARCLITE=no \
+	-DAUTOWRAP=no \
+	-DCALC=no \
+	-DIMAGEVIEWER=no \
+	-DOPENWITH=no \
+	-DFAR2MACRO=OFF \
+	-DUNRAR=NO \
+	-DCMAKE_DISABLE_FIND_PACKAGE_Git=ON \
+	-DCMAKE_BUILD_TYPE=Release
 
 $(eval $(call BuildPackage,far2l))

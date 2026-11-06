@@ -6,7 +6,7 @@ PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=LICENSE.txt
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/ТВОЙ_ЛОГИН/far2l.git
+PKG_SOURCE_URL:=https://github.com/kkkkCampbell/far2l.git
 PKG_SOURCE_VERSION:=master
 PKG_MIRROR_HASH:=skip
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)

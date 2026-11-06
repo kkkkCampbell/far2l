@@ -6,7 +6,7 @@ on:
     branches: [ main ]
     paths:
       - 'openwrt/**'
-      - '.github/workflows/build.yml'
+      - '.github/workflows/**'
 
 jobs:
   build:
@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Build far2l
         uses: openwrt/gh-action-sdk@v9
@@ -31,5 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: far2l-filogic-25.12.2
-          path: bin/packages/aarch64_cortex-a53/far2l_ci/*.apk
+          path: |
+            bin/packages/**/*.apk
+            bin/packages/**/*.ipk
           if-no-files-found: error

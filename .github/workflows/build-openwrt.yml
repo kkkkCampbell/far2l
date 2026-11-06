@@ -16,12 +16,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare package directory
+        run: |
+          # Копируем твой пакет far2l в стандартную директорию package/ внутри SDK-окружения
+          # (предполагая, что в репозитории он лежит в openwrt/far2l)
+          mkdir -p package/far2l
+          cp -r openwrt/far2l/* package/far2l/
+
       - name: Build far2l
         uses: openwrt/gh-action-sdk@v9
         env:
           ARCH: aarch64_cortex-a53-25.12.2
-          FEEDNAME: far2l_ci
-          FEED_DIR: openwrt
           PACKAGES: far2l
           VERSION: ${{ github.sha }}
           GIT_DATE: ${{ github.event.head_commit.timestamp }}

@@ -1,0 +1,47 @@
+name: Build far2l for OpenWrt 25.12
+
+on:
+  workflow_dispatch:          # Ручной запуск
+  push:
+    branches: [ main ]
+    paths:
+      - 'openwrt/**'
+      - '.github/workflows/build-openwrt.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Выберите нужные архитектуры. Полный список можно найти в OpenWrt SDK.
+        arch:
+          - x86_64
+          - aarch64_generic
+          - aarch64_cortex-a53
+          - arm_cortex-a7_neon-vfpv4
+          - mips_24kc
+        version:
+          - 25.12.2          # Можно также использовать SNAPSHOT для самых свежих сборок
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build far2l package
+        uses: openwrt/gh-action-sdk@v9
+        env:
+          ARCH: ${{ matrix.arch }}-${{ matrix.version }}
+          FEEDNAME: far2l_ci
+          PACKAGES: far2l
+          # Передаём переменные для подстановки в Makefile
+          VERSION: ${{ github.sha }}   # или можно использовать дату/тег
+          GIT_DATE: ${{ github.event.head_commit.timestamp }}
+          GIT_HASH: ${{ github.sha }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: far2l-${{ matrix.arch }}-${{ matrix.version }}
+          path: bin/packages/${{ matrix.arch }}/far2l_ci/*.apk   # для OpenWrt 25.12+ используется apk
+          if-no-files-found: error

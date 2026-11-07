@@ -1,4 +1,4 @@
-name: Build far2l for OpenWrt 25.12 (filogic)
+name: Build far2l for OpenWrt 25.12.6 (filogic)
 
 on:
   workflow_dispatch:
@@ -18,15 +18,16 @@ jobs:
 
       - name: Prepare package directory
         run: |
-          # Копируем твой пакет far2l в стандартную директорию package/ внутри SDK-окружения
-          # (предполагая, что в репозитории он лежит в openwrt/far2l)
           mkdir -p package/far2l
           cp -r openwrt/far2l/* package/far2l/
 
-      - name: Build far2l
+      - name: Build far2l for OpenWrt 25.12.6 Filogic
         uses: openwrt/gh-action-sdk@v9
         env:
-          ARCH: aarch64_cortex-a53-25.12.2
+          REF: v25.12.6
+          TARGET: mediatek
+          SUBTARGET: filogic
+          ARCH: aarch64_cortex-a53
           PACKAGES: far2l
           VERSION: ${{ github.sha }}
           GIT_DATE: ${{ github.event.head_commit.timestamp }}
@@ -35,7 +36,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: far2l-filogic-25.12.2
+          name: far2l-filogic-25.12.6
           path: |
             bin/packages/**/*.apk
             bin/packages/**/*.ipk
